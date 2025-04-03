@@ -7,45 +7,32 @@ A simple go server build with the http package
 ## Quick Links
 | Link | Description | Credential |
 |------|-------------|------------|
-|http://localhost:8080 | Local development | |
+|http://localhost:8080 | Local development | - |
 
 
 ## Development
-### Development Environment
-The DocumentRoot of NodeJS is divided into:
-***./src*** all files, which the developer can edit here
+### Overview and local setup
+This Go project is structured as follows:
+
 ```
-├── src
-│   ├── config
-│   │   └── *
-│   ├── controllers
-│   │   └── *
-│   ├── gulp-tasks
-│   │   └── *
-│   ├── services
-│   │   └── *
-│   ├── middlewares
-│   │   └── *
-│   ├── models
-│   │   └── *
-│   ├── public
-│   │   └── *
-│   ├── resources
-│   │   └── *
-│   ├── routes
-│   │   └── *
-│   ├── views
-│   │   └── *
-│   ├── gulpfile.js
-│   └── package.json
-│   └── index.js
+├── go-miniserver
+│   ├── bin
+│   │   └── *                # Compiled binary goes here after build
+│   ├── cmd
+│   │   └── api
+│   │        ├── main.go     # Entry point of the application
+│   │        ├── router.go   # Router setup using net/http
+│   │        └── middleware.go # Custom middleware definitions
+│   ├── internal
+│   │   └── handlers
+│   │        ├── handlers.go     # Route handler wiring
+│   │        └── healthcheck.go # Healthcheck endpoint logic
+│   └── .env                # Environment variables for local dev
 ```
 
-***./dist*** This directory comes from a build command. These files are not kept in Git. Editing these files has no sense, because the changes will be overwritten on the next build!
-
-**Note:** in the container *./src* is mapped to *./src* and for the NodeJS everything is one again. See the volumes in [./docker-compose.yml](./docker-compose.yml)
-
-**Note:** in the container *./db* the database volumes are mapped. See the volumes in [./docker-compose.yml](./docker-compose.yml)
+**Note:** 
+This project uses the standard Go `net/http` package for HTTP routing.
+All routes and middleware are defined in `/cmd/api`, and actual handler logic is encapsulated in `/internal/handlers`.
 
 ### First time init
 To develop locally, the *./src/node_modules* and the database must be available. Please run the following command before starting the container for the first time:

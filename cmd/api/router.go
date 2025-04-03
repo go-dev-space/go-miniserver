@@ -18,10 +18,17 @@ type config struct {
 
 func (sys system) Mount() http.Handler {
 
+	var handler http.Handler
+
 	mux := http.NewServeMux()
+
 	mux.HandleFunc("/ping", sys.Handlers.HealthCheck)
 
-	return mux
+	handler = mux
+	handler = loggerMiddleware(handler)
+
+	return handler
+
 }
 
 func (sys system) Run(mux http.Handler) error {

@@ -2,7 +2,7 @@
 
 ![Hero Image](./artifacts/general/img/hero.jpg)
 
-A simple go server build with the http package
+A simple go server build with the `net/http` package
 
 ## Quick Links
 | Link | Description | Credential |
@@ -27,7 +27,7 @@ This Go project is structured as follows:
 │   │   └── handlers
 │   │        ├── handlers.go      # Route handler wiring
 │   │        └── healthcheck.go   # Healthcheck endpoint logic
-│   └── .env                # Environment variables for local dev
+│   └── .env                      # Environment variables for local dev
 ```
 
 **Note:** 

@@ -17,16 +17,16 @@ This Go project is structured as follows:
 ```
 ├── go-miniserver
 │   ├── bin
-│   │   └── *                # Compiled binary goes here after build
+│   │   └── *                     # Compiled binary goes here after build
 │   ├── cmd
 │   │   └── api
-│   │        ├── main.go     # Entry point of the application
-│   │        ├── router.go   # Router setup using net/http
-│   │        └── middleware.go # Custom middleware definitions
+│   │        ├── main.go          # Entry point of the application
+│   │        ├── router.go        # Router setup using net/http
+│   │        └── middleware.go    # Custom middleware definitions
 │   ├── internal
 │   │   └── handlers
-│   │        ├── handlers.go     # Route handler wiring
-│   │        └── healthcheck.go # Healthcheck endpoint logic
+│   │        ├── handlers.go      # Route handler wiring
+│   │        └── healthcheck.go   # Healthcheck endpoint logic
 │   └── .env                # Environment variables for local dev
 ```
 

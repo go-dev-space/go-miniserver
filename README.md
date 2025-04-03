@@ -8,6 +8,7 @@ A simple go server build with the `net/http` package
 | Link | Description | Credential |
 |------|-------------|------------|
 |http://localhost:8080 | Local development | - |
+|[Link](https://github.com/joho/godotenv) | Go Pkg. for loading env files | joho/godotenv |
 
 
 ## Development
@@ -22,7 +23,7 @@ This Go project is structured as follows:
 │   │   └── api
 │   │        ├── main.go          # Entry point of the application
 │   │        ├── router.go        # Router setup using net/http
-│   │        └── middleware.go    # Custom middleware definitions
+│   │        └── middlewares.go   # Custom middleware definitions
 │   ├── internal
 │   │   └── handlers
 │   │        ├── handlers.go      # Route handler wiring
@@ -34,146 +35,50 @@ This Go project is structured as follows:
 This project uses the standard Go `net/http` package for HTTP routing.
 All routes and middleware are defined in `/cmd/api`, and actual handler logic is encapsulated in `/internal/handlers`.
 
-### First time init
-To develop locally, the *./src/node_modules* and the database must be available. Please run the following command before starting the container for the first time:
+### First time initialisation
+As soon as the project has been checked out from the Git repository, all required packages must be installed locally. Start in the root directory of your project:
 
 ```
-# Always start in the root of repository project
-cd ./
-
-# Start the container
-docker-compose up
-
-# Switch to ./src directory
-cd src/
-
-# Install the node_modules
-npm install
+# Install the Go packages
+$ go mod tidy
 ```
 
-### Docker & NodeJS commands for development
+### Run the Go Miniserver
 
 ```
-# Always start in the root of repository project
-cd ./
+# Start the server 
+$ go run ./cmd/api/*.go
 
-# Edit .env.sample and change name to .env
-
-# Start projects 
-docker-compose up
-
-# Remove the container
-docker-compose down
-
-# Start GULP watcher for build (JS, SASS/LESS) (in new terminal)
-$ cd src/; npm run build;
+# Alternatively, create build
+$ go build -o /bin/main ./cmd/api/*.go
 ```
 
-## Bundle & Deployment Commands
+## Call the Go Miniserver
 ### Local Maschine
+You should see the following debug output in your terminal:
 
 ```
-# Always start in the root of repository project
-cd ./
-
-# Create release bundle (*./dist) [on initial build use flag: -- --init=true]
-$ cd src/; npm run bundle 
-
-# Start deployment process (*./dist) [on initial deployment use flag: -- --init=true]
-$ cd src/; npm run deploy
+2025/04/03 12:00:15 [GO SERVER] running => http://localhost:8080
+```
+Open a browser of your choice and enter the following URL:
+```
+http://localhost:8080/ping
+```
+You should then see the following debug output on your terminal:
+```
+{
+  "status_code": 200,
+  "message": "it work's!"
+}
+```
+and additionally you should get the following debug output on your terminal:
+```
+2025/04/03 12:01:58 [12:01:58] GET [::1]:12345
 ```
 
-## Firewall Settings PLESK
-### Production
+## Documentation
+### For further information 
 
-```
-1. Open Settings
-Tools & Einstellungen
+On my website you will find all further information under the appropriate heading.
 
-2. Open Firewall settings
-Firewall
-
-3. Activate Firewall
-
-4. Add new rule
-Benutzerdefinierte Regel hinzufügen
-
-5. Name, Port and Remote Address
-Name: MongoDB
-Ports: 27017
-Remote Address: local maschine IP (Telekom)
-
-6. Änderung aktivieren
-
-7. Aktivieren
-```
-
-## MongoDB Settings (if not running Docker and DB in container)
-### MongoDB Add Admin User
-
-```
-1. Open DB
-$ mongo
-
-2. Use Admin Table
-> use admin
-
-3. Create Admin User
-> db.createUser({ user: "hassani", pwd: passwordPrompt(), roles: [ { role: "userAdminAnyDatabase", db: "admin" }, "readWriteAnyDatabase" ] })
-
-4. Set Password
-
-5. Exit and change config
-> exit
-```
-
-### MongoDB Enable Authentication
-
-```
-1. Open config File
-$ sudo nano /etc/mongod.conf
-
-2. Scroll down to find the commented-out security section
-security:
-
-3. Then add the authorization parameter and set it to enabled
-security:
-  authorization: enabled
-
-4. Save and exit
-STRG + x
-
-5. Restart mongodb
-$ sudo systemctl restart mongod
-
-6. Check service status
-$ sudo systemctl status mongod
-
-7. Login now with credentials:
-$ mongo -u hassani -p
-```
-
-### MongoDB remote Access
-
-```
-! Dont forget first PLESK Firewall Settings
-1. Open config file
-$ sudo nano /etc/mongod.conf
-
-2. Change bindIP (127.0.0.1):
-# network interfaces
-net:
-  port: 27017
-  bindIp: 0.0.0.0
-
-3. Restart mongodb
-$ sudo systemctl restart mongod
-
-4. Check service status
-$ sudo systemctl status mongod
-
-5. Login with credentials
-mongodb://username:password@localhost:27017
-```
-
-
+To the official: [Documentation](https://github.com/joho/godotenv)
